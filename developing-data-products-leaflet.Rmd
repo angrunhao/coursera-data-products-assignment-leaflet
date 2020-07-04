@@ -1,0 +1,31 @@
+---
+title: "Developing Data Products"
+author: "Sebastian Ang"
+date: "04-July-2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Interactive map on all the countries & regions in the world, referring to Google Map's *Dataset Publishing Standards* for the latitudes and longitudes, with custom icons.
+
+#### Click on the markers to see if you guessed the right country/area name!
+
+```{r, message = FALSE, warning = FALSE}
+library(leaflet)
+data <- read.csv("data\\countryCoordinates.csv")
+dataLatLon <- data.frame(lat = data$latitude, lon = data$longitude)
+
+mapIcon <- makeIcon(
+  iconUrl = "https://image.flaticon.com/icons/svg/684/684809.svg",
+  iconWidth = 20, iconHeight = 25
+)
+
+
+dataLatLon %>%
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(icon = mapIcon, popup = data$name)
+```
